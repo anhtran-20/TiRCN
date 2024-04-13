@@ -149,10 +149,10 @@ def run_experiment(args, history_len=None, n_layers=None, dropout=None, n_bases=
     print("loading graph data")
     data = utils.load_data(args.dataset)   # 得到data类
     train_list, train_times = utils.split_by_time(data.train)   # 划分为snapshots，逐时间步的数据集
-    valid_list, valid_times = utils.split_by_time(data.valid)
+    valid_list, valid_times = utils.split_by_time(data.valid)   # valid_list: bộ 4 trên từng snapshot t, valid_time = set(times)
     test_list, test_times = utils.split_by_time(data.test)
 
-    num_nodes = data.num_nodes
+    num_nodes = data.num_nodes  # stat
     num_rels = data.num_rels
     if args.dataset == "ICEWS14s":
         num_times = len(train_list) + len(valid_list) + len(test_list) + 1
@@ -160,8 +160,8 @@ def run_experiment(args, history_len=None, n_layers=None, dropout=None, n_bases=
         num_times = len(train_list) + len(valid_list) + len(test_list)
     time_interval = train_times[1]-train_times[0]
     print("num_times", num_times, "--------------", time_interval)
-    history_val_time_nogt = valid_times[0]
-    history_test_time_nogt = test_times[0]
+    history_val_time_nogt = valid_times[0]      # min time of all set
+    history_test_time_nogt = test_times[0]      
     if args.multi_step:
         print("val only use global history before:", history_val_time_nogt)
         print("test only use global history before:", history_test_time_nogt)
@@ -179,9 +179,9 @@ def run_experiment(args, history_len=None, n_layers=None, dropout=None, n_bases=
     print("Sanity Check: Is cuda available ? {}".format(torch.cuda.is_available()))
 
     use_cuda = args.gpu >= 0 and torch.cuda.is_available()
-
+    
     if args.add_static_graph:
-        static_triples = np.array(_read_triplets_as_list("../data/" + args.dataset + "/e-w-graph.txt", {}, {}, load_time=False))
+        static_triples = np.array(_read_triplets_as_list("../data/" + args.dataset + "/e-w-graph.txt", {}, {}, load_time=False))    # all bộ 3
         num_static_rels = len(np.unique(static_triples[:, 1]))
         num_words = len(np.unique(static_triples[:, 2]))
         static_triples[:, 2] = static_triples[:, 2] + num_nodes 

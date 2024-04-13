@@ -223,7 +223,7 @@ def add_subject(e1, e2, r, d, num_rel):
     d[e2][r+num_rel].add(e1)
 
 
-def add_object(e1, e2, r, d, num_rel):
+def add_object(e1, e2, r, d, num_rel):  # add_object(s, o, r, all_ans, num_rel=0)
     if not e1 in d:
         d[e1] = {}
     if not r in d[e1]:
@@ -299,7 +299,7 @@ def split_by_time(data):
         uniq_v, edges = np.unique((snapshot[:,0], snapshot[:,2]), return_inverse=True)  # relabel
         uniq_r = np.unique(snapshot[:,1])
         edges = np.reshape(edges, (2, -1))
-        nodes.append(len(uniq_v))
+        nodes.append(len(uniq_v))   # num_node per snapshot
         rels.append(len(uniq_r)*2)
     times = set()
     for triple in data:

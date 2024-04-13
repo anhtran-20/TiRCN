@@ -1,0 +1,17 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python Debugger: Current File",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "cwd": "D:\\Documents\\KhoaLuan\\TiRGN\\src",
+            "args": ["-d=ICEWS14s", "--history-rate=0.3", "--train-history-len=9", "--test-history-len=9", "--dilate-len=1", "--lr=0.001", "--n-layers=2", "--evaluate-every=1", "--n-hidden=200", "--self-loop", "--decoder=timeconvtranse", "--encoder=convgcn", "--layer-norm", "--weight=0.5", "--entity-prediction", "--relation-prediction", "--add-static-graph", "--angle=14", "--discount=1", "--task-weight=0.7", "--gpu=0", "--save=checkpoint"]
+        }
+    ]
+}

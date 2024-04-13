@@ -83,10 +83,10 @@ def get_data_with_t(data, tim):
     triples = [[quad[0], quad[1], quad[2]] for quad in data if quad[3] == tim]
     return np.array(triples)
 
-all_data, all_times = load_all_quadruples('../data/{}'.format(args.dataset), 'train.txt', 'valid.txt', "test.txt")
-num_e, num_r = get_total_number('../data/{}'.format(args.dataset), 'stat.txt')
+all_data, all_times = load_all_quadruples('data/{}'.format(args.dataset), 'train.txt', 'valid.txt', "test.txt")
+num_e, num_r = get_total_number('data/{}'.format(args.dataset), 'stat.txt')
 
-save_dir_obj = '../data/{}/history/'.format(args.dataset)
+save_dir_obj = 'data/{}/history/'.format(args.dataset)
 
 def mkdirs(path):
 	if not os.path.exists(path):
@@ -104,23 +104,23 @@ for tim in tqdm(all_times):
         train_new_data = torch.cat([train_new_data, inverse_train_data])
 
         # entity history
-        train_new_data = torch.unique(train_new_data[:, :3], sorted=False, dim=0)
+        train_new_data = torch.unique(train_new_data[:, :3], sorted=False, dim=0)   # bộ 3 unique
         train_new_data = train_new_data.numpy()
-        row = train_new_data[:, 0] * num_r + train_new_data[:, 1]
+        row = train_new_data[:, 0] * num_r + train_new_data[:, 1]                   
         col = train_new_data[:, 2]
-        d = np.ones(len(row))
+        d = np.ones(len(row))               # 226 subject có trong lịch sử
         tail_seq = sp.csr_matrix((d, (row, col)), shape=(num_e * num_r, num_e))
 
         # relation history
-        rel_row = train_new_data[:, 0] * num_e + train_new_data[:, 2]
+        rel_row = train_new_data[:, 0] * num_e + train_new_data[:, 2]       # ?? vì sao nhân ent*num_e + obj
         rel_col = train_new_data[:, 1]
         rel_d = np.ones(len(rel_row))
         rel_seq = sp.csr_matrix((rel_d, (rel_row, rel_col)), shape=(num_e * num_e, num_r))
     else:
         tail_seq = sp.csr_matrix(([], ([], [])), shape=(num_e * num_r, num_e))
         rel_seq = sp.csr_matrix(([], ([], [])), shape=(num_e * num_e, num_r))
-    sp.save_npz('../data/{}/history/tail_history_{}.npz'.format(args.dataset, tim), tail_seq)
-    sp.save_npz('../data/{}/history/rel_history_{}.npz'.format(args.dataset, tim), rel_seq)
+    sp.save_npz('data/{}/history/tail_history_{}.npz'.format(args.dataset, tim), tail_seq)
+    sp.save_npz('data/{}/history/rel_history_{}.npz'.format(args.dataset, tim), rel_seq)
 
 
 

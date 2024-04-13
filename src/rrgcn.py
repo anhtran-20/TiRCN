@@ -65,10 +65,10 @@ class RecurrentRGCN(nn.Module):
         self.encoder_name = encoder_name
         self.num_rels = num_rels
         self.num_ents = num_ents
-        self.opn = opn
+        self.opn = opn  #'sub'
         self.history_rate = history_rate
         self.num_words = num_words
-        self.num_static_rels = num_static_rels
+        self.num_static_rels = num_static_rels  #3
         self.num_times = num_times
         self.time_interval = time_interval
         self.sequence_len = sequence_len
